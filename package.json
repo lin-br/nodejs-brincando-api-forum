@@ -1,7 +1,7 @@
 {
   "name": "nodejs-brincando-api-forum",
   "version": "1.0.0",
-  "description": "Brincando com API de Forum no NodeJS",
+  "description": "Brincando com API de um Forum no NodeJS",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
