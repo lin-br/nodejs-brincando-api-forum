@@ -19,7 +19,9 @@
   "homepage": "https://github.com/lin-br/nodejs-brincando-api-forum#readme",
   "dependencies": {
     "express": "4.16.4",
-    "helmet": "3.16.0"
+    "helmet": "3.16.0",
+    "mongoose": "5.5.3",
+    "mysql": "2.17.1"
   },
   "devDependencies": {
     "nodemon": "1.18.11"
