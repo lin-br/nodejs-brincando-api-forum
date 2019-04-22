@@ -1,0 +1,43 @@
+version: "3.6"
+volumes:
+    datadb:
+        external: false
+services:
+    mongodb:
+        build:
+            context: ./src/docker/mongodb
+        image: mongodb-forum
+        container_name: mongodb-nodejs-forum
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: 123456
+        ports:
+            - 27017:27017
+        networks:
+            - docker-nodejs-forum
+    mariadb:
+        build:
+            context: ./src/docker/mariadb
+        image: mariadb-forum
+        container_name: mariadb-nodejs-forum
+        volumes:
+            - datadb:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: 123456
+        ports:
+            - 3306:3306
+        networks:
+            - docker-nodejs-forum
+    memcached:
+        build:
+            context: ./src/docker/memcached
+        image: memcached-forum
+        container_name: memcached-nodejs-forum
+        ports:
+            - 11211:11211
+        networks:
+            - docker-nodejs-forum
+networks:
+    docker-nodejs-forum:
+        driver: bridge
+        name: docker-nodejs-forum
