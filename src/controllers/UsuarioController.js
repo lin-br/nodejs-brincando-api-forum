@@ -1,14 +1,14 @@
-const UsuariosRepository = require('../model/repository/UsuariosRepository');
+const UsuarioRepository = require('../model/repository/UsuarioRepository');
 const UsuarioEntity = require('../model/entity/UsuarioEntity');
 const Url = require('../util/Url');
 
-class UsuariosController {
+class UsuarioController {
 
     static salvarUsuario(request, response) {
         let {nome, email} = request.body;
         let usuario = new UsuarioEntity(nome, email);
 
-        UsuariosRepository.cadastrar(usuario)
+        UsuarioRepository.cadastrar(usuario)
             .then((id) => {
                 response.location(Url.montarUrlParaLocation(request, id)).send();
             })
@@ -19,4 +19,4 @@ class UsuariosController {
     }
 }
 
-module.exports = UsuariosController;
+module.exports = UsuarioController;

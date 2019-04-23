@@ -4,15 +4,15 @@ const pool = require('../../util/MySQLPoolFactory').getPool({
     password: '123456',
     database: 'tilmais'
 });
-const UsuariosDAO = require('../dao/UsuariosDAO');
+const UsuarioDAO = require('../dao/UsuarioDAO');
 
-const dao = new UsuariosDAO(pool);
+const dao = new UsuarioDAO(pool);
 
-class UsuariosRepository {
+class UsuarioRepository {
 
     static cadastrar(usuario) {
         return dao.salvar(usuario);
     }
 }
 
-module.exports = UsuariosRepository;
+module.exports = UsuarioRepository;
