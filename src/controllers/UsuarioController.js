@@ -1,6 +1,6 @@
 const UsuarioRepository = require('../model/repository/UsuarioRepository');
 const UsuarioEntity = require('../model/entity/UsuarioEntity');
-const Url = require('../util/Url');
+const Url = require('../helpers/Url');
 
 class UsuarioController {
 

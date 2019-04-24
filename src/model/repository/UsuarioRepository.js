@@ -1,4 +1,4 @@
-const pool = require('../../util/MySQLPoolFactory').getPool({
+const pool = require('../../helpers/MySQLPoolFactory').getPool({
     host: 'localhost',
     user: 'root',
     password: '123456',
