@@ -10,10 +10,10 @@ class MySQLPoolFactory {
     static getPool({host, user, password, database} = {}) {
 
         let pool = mysql.createPool({
-            host: HOST ? HOST : host,
-            user: USER ? USER : user,
-            password: PASSWORD ? PASSWORD : password,
-            database: DATABASE ? DATABASE : database
+            host: HOST || host,
+            user: USER || user,
+            password: PASSWORD || password,
+            database: DATABASE || database
         });
 
         pool.on('release', () => console.log('[pool] => conexão devolvida'));
