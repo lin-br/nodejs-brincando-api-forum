@@ -1,3 +1,5 @@
+const ExpressValidatorResultFormatted = require('../../../helpers/ExpressValidatorResultFormatted');
+
 class UsuarioValid {
 
     static validarCadastro(request, response, next) {
@@ -7,7 +9,7 @@ class UsuarioValid {
             .then((resultado) => {
                 console.log(resultado.mapped());
                 if (resultado.isEmpty()) next();
-                else response.status(422).json(resultado.mapped());
+                else response.status(422).json(resultado.formatWith(ExpressValidatorResultFormatted).mapped());
             });
     }
 }
