@@ -13,7 +13,6 @@ class UsuarioValid {
 
         request.getValidationResult()
             .then((resultado) => {
-                console.log(resultado.mapped());
                 if (resultado.isEmpty()) next();
                 else response.status(422).json(resultado.formatWith(ExpressValidatorResultFormatted).mapped());
             });
