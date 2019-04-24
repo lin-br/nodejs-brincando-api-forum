@@ -1,6 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
-const UsuarioRoute = require('./src/routes/UsuarioRoute');
+const UsuarioRoute = require('./routes/UsuarioRoute');
 
 const app = express();
 
