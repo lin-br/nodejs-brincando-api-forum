@@ -11,10 +11,6 @@ class UsuarioController {
         UsuarioRepository.cadastrar(usuario)
             .then((id) => {
                 response.location(Url.montarUrlParaLocation(request, id)).send();
-            })
-            .catch((erro) => {
-                console.log(erro);
-                response.status(500).send();
             });
     }
 }
