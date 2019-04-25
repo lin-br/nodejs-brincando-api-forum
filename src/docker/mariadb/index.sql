@@ -39,13 +39,13 @@ CREATE TABLE IF NOT EXISTS tilmais.usuarios (
     nome                VARCHAR(45)  NOT NULL,
     email               VARCHAR(60)  NOT NULL,
     senha               VARCHAR(100) NULL,
-    tipo                INT          NOT NULL,
+    id_tipo             INT          NOT NULL,
     data_hora_criacao   TIMESTAMP    NOT NULL DEFAULT current_timestamp(),
     data_hora_alteracao TIMESTAMP    NULL     DEFAULT NULL,
     data_hora_exclusao  TIMESTAMP    NULL     DEFAULT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_usuarios_perfil
-        FOREIGN KEY (tipo)
+        FOREIGN KEY (id_tipo)
             REFERENCES tilmais.tipos(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
@@ -74,19 +74,19 @@ CREATE TABLE IF NOT EXISTS tilmais.regras (
 DROP TABLE IF EXISTS tilmais.regras_tipos;
 
 CREATE TABLE IF NOT EXISTS tilmais.regras_tipos (
-    regra            INT       NOT NULL,
-    tipo             INT       NOT NULL,
-    usuario_cadastro INT       NOT NULL COMMENT 'Pessoa que vinculou/cadastrou a regra ao tipo de pessoa',
-    data_vinculo     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT 'Data em que o vínculo entre regra e o tipo foi cadastrado',
-    PRIMARY KEY (regra,tipo,usuario_cadastro),
+    id_regra            INT       NOT NULL,
+    id_tipo             INT       NOT NULL,
+    id_usuario_cadastro INT       NOT NULL COMMENT 'Pessoa que vinculou/cadastrou a regra ao tipo de pessoa',
+    data_vinculo        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT 'Data em que o vínculo entre regra e o tipo foi cadastrado',
+    PRIMARY KEY (id_regra,id_tipo,id_usuario_cadastro),
     CONSTRAINT fk_id_regras_tipos
-        FOREIGN KEY (regra)
+        FOREIGN KEY (id_regra)
             REFERENCES tilmais.regras(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT fk_id_tipos_regras
-        FOREIGN KEY (tipo)
+        FOREIGN KEY (id_tipo)
             REFERENCES tilmais.tipos(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT fk_id_usuario_cadastro_regras_tipos
-        FOREIGN KEY (usuario_cadastro)
+        FOREIGN KEY (id_usuario_cadastro)
             REFERENCES tilmais.usuarios(id) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
     ENGINE = InnoDB;
@@ -97,19 +97,19 @@ CREATE TABLE IF NOT EXISTS tilmais.regras_tipos (
 DROP TABLE IF EXISTS tilmais.regras_usuarios;
 
 CREATE TABLE IF NOT EXISTS tilmais.regras_usuarios (
-    regra            INT       NOT NULL,
-    usuario          INT       NOT NULL,
-    usuario_cadastro INT       NOT NULL COMMENT 'Pessoa que vinculou/cadastrou a regra ao tipo de pessoa',
-    data_vinculo     TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT 'Data em que o vínculo entre regra e o tipo foi cadastrado',
-    PRIMARY KEY (regra,usuario,usuario_cadastro),
+    id_regra            INT       NOT NULL,
+    id_usuario          INT       NOT NULL,
+    id_usuario_cadastro INT       NOT NULL COMMENT 'Pessoa que vinculou/cadastrou a regra ao tipo de pessoa',
+    data_vinculo        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT 'Data em que o vínculo entre regra e o tipo foi cadastrado',
+    PRIMARY KEY (id_regra,id_usuario,id_usuario_cadastro),
     CONSTRAINT fk_id_regras_usuarios
-        FOREIGN KEY (regra)
+        FOREIGN KEY (id_regra)
             REFERENCES tilmais.regras(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT fk_id_usuarios_regras
-        FOREIGN KEY (usuario)
+        FOREIGN KEY (id_usuario)
             REFERENCES tilmais.usuarios(id) ON DELETE NO ACTION ON UPDATE NO ACTION,
     CONSTRAINT fk_id_usuario_cadastro_regras_usuarios
-        FOREIGN KEY (usuario_cadastro)
+        FOREIGN KEY (id_usuario_cadastro)
             REFERENCES tilmais.usuarios(id) ON DELETE NO ACTION ON UPDATE NO ACTION
 )
     ENGINE = InnoDB;
@@ -127,10 +127,10 @@ CREATE TABLE IF NOT EXISTS tilmais.categorias (
     data_hora_exclusao  TIMESTAMP    NULL     DEFAULT NULL,
     nome                VARCHAR(200) NOT NULL,
     slug                VARCHAR(200) NOT NULL,
-    categoria_pai       INT          NULL,
+    id_categoria_pai    INT          NULL,
     PRIMARY KEY (id),
-    CONSTRAINT fk_categoria_categoria1
-        FOREIGN KEY (categoria_pai)
+    CONSTRAINT fk_id_categoria_categoria_pai
+        FOREIGN KEY (id_categoria_pai)
             REFERENCES tilmais.categorias(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
@@ -152,17 +152,17 @@ CREATE TABLE IF NOT EXISTS tilmais.artigos (
     titulo              TEXT       NOT NULL,
     descricao           TEXT       NOT NULL,
     conteudo            LONGTEXT   NOT NULL,
-    categoria_id        INT        NOT NULL,
-    usuario_id          INT        NOT NULL,
+    id_categoria        INT        NOT NULL,
+    id_usuario          INT        NOT NULL,
     proximo_artigo      INT        NULL COMMENT 'Atributo utilizado para \'lincar\' um artigo com outro artigo. Isso significa que um artigo é continuidade do outro.',
     PRIMARY KEY (id),
     CONSTRAINT fk_artigo_categoria
-        FOREIGN KEY (categoria_id)
+        FOREIGN KEY (id_categoria)
             REFERENCES tilmais.categorias(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     CONSTRAINT fk_artigo_usuario1
-        FOREIGN KEY (usuario_id)
+        FOREIGN KEY (id_usuario)
             REFERENCES tilmais.usuarios(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
@@ -185,16 +185,16 @@ CREATE TABLE IF NOT EXISTS tilmais.comentarios (
     data_hora_criacao   TIMESTAMP  NOT NULL DEFAULT current_timestamp(),
     data_hora_alteracao TIMESTAMP  NULL     DEFAULT NULL,
     data_hora_exclusao  TIMESTAMP  NULL     DEFAULT NULL,
-    usuario_id          INT        NOT NULL,
-    artigo_id           INT        NOT NULL,
+    id_usuario          INT        NOT NULL,
+    id_artigo           INT        NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_comentario_usuario1
-        FOREIGN KEY (usuario_id)
+        FOREIGN KEY (id_usuario)
             REFERENCES tilmais.usuarios(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     CONSTRAINT fk_comentario_artigo1
-        FOREIGN KEY (artigo_id)
+        FOREIGN KEY (id_artigo)
             REFERENCES tilmais.artigos(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
@@ -215,10 +215,10 @@ CREATE TABLE IF NOT EXISTS tilmais.anexos (
     data_hora_exclusao  TIMESTAMP    NULL     DEFAULT NULL,
     nome                VARCHAR(60)  NOT NULL,
     diretorio           VARCHAR(250) NOT NULL,
-    usuario_id          INT          NOT NULL,
+    id_usuario          INT          NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_anexo_usuario1
-        FOREIGN KEY (usuario_id)
+        FOREIGN KEY (id_usuario)
             REFERENCES tilmais.usuarios(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
@@ -232,18 +232,18 @@ CREATE TABLE IF NOT EXISTS tilmais.anexos (
 DROP TABLE IF EXISTS tilmais.anexos_artigos;
 
 CREATE TABLE IF NOT EXISTS tilmais.anexos_artigos (
-    anexo_id  INT          NOT NULL,
-    artigo_id INT          NOT NULL,
+    id_anexo  INT          NOT NULL,
+    id_artigo INT          NOT NULL,
     hash      VARCHAR(100) NOT NULL,
-    PRIMARY KEY (anexo_id,artigo_id),
+    PRIMARY KEY (id_anexo,id_artigo),
     UNIQUE INDEX hash_UNIQUE(hash ASC),
     CONSTRAINT fk_anexo_has_artigo_anexo1
-        FOREIGN KEY (anexo_id)
+        FOREIGN KEY (id_anexo)
             REFERENCES tilmais.anexos(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     CONSTRAINT fk_anexo_has_artigo_artigo1
-        FOREIGN KEY (artigo_id)
+        FOREIGN KEY (id_artigo)
             REFERENCES tilmais.artigos(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
@@ -274,16 +274,16 @@ CREATE TABLE IF NOT EXISTS tilmais.tags (
 DROP TABLE IF EXISTS tilmais.tags_artigos;
 
 CREATE TABLE IF NOT EXISTS tilmais.tags_artigos (
-    artigo_id INT NOT NULL,
-    tag_id    INT NOT NULL,
-    PRIMARY KEY (artigo_id,tag_id),
+    id_artigo INT NOT NULL,
+    id_tag    INT NOT NULL,
+    PRIMARY KEY (id_artigo,id_tag),
     CONSTRAINT fk_artigo_has_tag_artigo1
-        FOREIGN KEY (artigo_id)
+        FOREIGN KEY (id_artigo)
             REFERENCES tilmais.artigos(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     CONSTRAINT fk_artigo_has_tag_tag1
-        FOREIGN KEY (tag_id)
+        FOREIGN KEY (id_tag)
             REFERENCES tilmais.tags(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
@@ -308,17 +308,17 @@ CREATE TABLE IF NOT EXISTS tilmais.imagens (
     title               VARCHAR(100) NOT NULL COMMENT 'texto que será escrito no atributo \'title\' da tag HTML',
     altura              INT          NULL,
     largura             INT          NULL,
-    usuario_id          INT          NOT NULL,
-    artigo_id           INT          NOT NULL,
+    id_usuario          INT          NOT NULL,
+    id_artigo           INT          NOT NULL,
     PRIMARY KEY (id),
     UNIQUE INDEX hash_UNIQUE(hash ASC),
     CONSTRAINT fk_imagem_usuario1
-        FOREIGN KEY (usuario_id)
+        FOREIGN KEY (id_usuario)
             REFERENCES tilmais.usuarios(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     CONSTRAINT fk_imagem_artigo1
-        FOREIGN KEY (artigo_id)
+        FOREIGN KEY (id_artigo)
             REFERENCES tilmais.artigos(id)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION
