@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 
-const HOST = process.env.HOST;
+const HOST = process.env.MYSQL_HOST;
 const USER = process.env.MYSQL_USER;
 const PASSWORD = process.env.MYSQL_PASSWORD;
 const DATABASE = process.env.MYSQL_DATABASE;
