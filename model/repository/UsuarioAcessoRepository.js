@@ -10,10 +10,6 @@ const dao = new UsuarioAcessoDAO(pool);
 
 class UsuarioAcessoRepository {
 
-    static cadastrar(usuario) {
-        return dao.salvar(usuario);
-    }
-
     static recuperarUsuarioComPermissoes(email) {
         return dao.recuperarUsuarioComPermissoes(email);
     }
