@@ -74,10 +74,11 @@ CREATE TABLE IF NOT EXISTS tilmais.regras (
 DROP TABLE IF EXISTS tilmais.regras_tipos;
 
 CREATE TABLE IF NOT EXISTS tilmais.regras_tipos (
-    id_regra            INT       NOT NULL,
-    id_tipo             INT       NOT NULL,
-    id_usuario_cadastro INT       NOT NULL COMMENT 'Pessoa que vinculou/cadastrou a regra ao tipo de pessoa',
-    data_vinculo        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT 'Data em que o vínculo entre regra e o tipo foi cadastrado',
+    id_regra            INT        NOT NULL,
+    id_tipo             INT        NOT NULL,
+    id_usuario_cadastro INT        NOT NULL COMMENT 'Pessoa que vinculou/cadastrou a regra ao tipo de pessoa',
+    situacao_vinculo    TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 - ATIVADO / 0 - DESATIVADO',
+    data_vinculo        TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT 'Data em que o vínculo entre regra e o tipo foi cadastrado',
     PRIMARY KEY (id_regra,id_tipo,id_usuario_cadastro),
     CONSTRAINT fk_id_regras_tipos
         FOREIGN KEY (id_regra)
@@ -97,10 +98,11 @@ CREATE TABLE IF NOT EXISTS tilmais.regras_tipos (
 DROP TABLE IF EXISTS tilmais.regras_usuarios;
 
 CREATE TABLE IF NOT EXISTS tilmais.regras_usuarios (
-    id_regra            INT       NOT NULL,
-    id_usuario          INT       NOT NULL,
-    id_usuario_cadastro INT       NOT NULL COMMENT 'Pessoa que vinculou/cadastrou a regra ao tipo de pessoa',
-    data_vinculo        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT 'Data em que o vínculo entre regra e o tipo foi cadastrado',
+    id_regra            INT        NOT NULL,
+    id_usuario          INT        NOT NULL,
+    id_usuario_cadastro INT        NOT NULL COMMENT 'Pessoa que vinculou/cadastrou a regra ao tipo de pessoa',
+    situacao_vinculo    TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 - ATIVADO / 0 - DESATIVADO',
+    data_vinculo        TIMESTAMP  NOT NULL DEFAULT CURRENT_TIMESTAMP() COMMENT 'Data em que o vínculo entre regra e o tipo foi cadastrado',
     PRIMARY KEY (id_regra,id_usuario,id_usuario_cadastro),
     CONSTRAINT fk_id_regras_usuarios
         FOREIGN KEY (id_regra)
