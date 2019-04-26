@@ -1,4 +1,5 @@
 const UsuarioAcessoRepository = require('../model/repository/UsuarioAcessoRepository');
+const UsuarioCacheRepository = require('../model/repository/UsuarioCacheRepository');
 
 class LoginController {
 
@@ -6,8 +7,9 @@ class LoginController {
         let {email} = request.body;
 
         UsuarioAcessoRepository.recuperarUsuarioComPermissoes(email)
-            .then(resultado => {
-                console.log(resultado);
+            .then(usuario => UsuarioCacheRepository.cachearUsuario(usuario))
+            .then(mensagem => {
+                console.log(mensagem);
                 response.send('ok');
             })
             .catch(erro => {

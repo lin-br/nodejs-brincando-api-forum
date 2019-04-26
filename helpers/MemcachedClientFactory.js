@@ -11,7 +11,7 @@ const PORT = process.env.MEMCACHED_PORT;
 class MemcachedClientFactory {
 
     static getClient({host, port} = {}) {
-        return new Memcached(`${HOST || host}: ${PORT || port}`);
+        return new Memcached(`${HOST || host}:${PORT || port}`);
     }
 }
 
