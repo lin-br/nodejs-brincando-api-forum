@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/lin-br/nodejs-brincando-api-forum#readme",
   "dependencies": {
+    "bcrypt": "3.0.6",
     "express": "4.16.4",
     "express-validator": "5.3.1",
     "helmet": "3.16.0",
