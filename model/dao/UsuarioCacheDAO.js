@@ -8,7 +8,7 @@ class UsuarioCacheDAO {
         return new Promise((resolve, reject) => {
             this._conexao.set(`usuario-${usuario.id}`,
                 usuario,
-                5,
+                86400,
                 (erro) => {
                     if (erro) reject(erro);
                     else {
