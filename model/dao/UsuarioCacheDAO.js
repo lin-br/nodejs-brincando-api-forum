@@ -6,7 +6,7 @@ class UsuarioCacheDAO {
 
     adicionarCache(usuario) {
         return new Promise((resolve, reject) => {
-            this._conexao.set(usuario.id,
+            this._conexao.set(`usuario-${usuario.id}`,
                 usuario,
                 5,
                 (erro) => {
@@ -22,7 +22,7 @@ class UsuarioCacheDAO {
 
     buscarCache(id) {
         return new Promise((resolve, reject) => {
-            this._conexao.get(id,
+            this._conexao.get(`usuario-${id}`,
                 (erro, retorno) => {
                     if (erro) reject(erro);
                     else resolve(retorno);
