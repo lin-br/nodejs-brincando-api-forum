@@ -10,8 +10,8 @@ const dao = new UsuarioCacheDAO(clientMemcached);
 
 class UsuarioCacheRepository {
 
-    static cachearUsuario(pessoa) {
-        return dao.adicionarCache(pessoa);
+    static cachearUsuario(usuario) {
+        return dao.adicionarCache(usuario);
     }
 
     static obterCachePorId(id) {
