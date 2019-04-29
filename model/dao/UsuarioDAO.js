@@ -10,7 +10,7 @@ class UsuariosDAO {
                 [usuario.nome, usuario.email, usuario.situacao],
                 (erro, resultado) => {
                     if (erro) reject(erro);
-                    resolve(resultado.insertId);
+                    else resolve(resultado.insertId);
                 }
             )
         });
