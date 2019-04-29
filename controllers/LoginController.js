@@ -13,7 +13,7 @@ class LoginController {
             })
             .catch(erro => {
                 console.log(`erro: ${erro}`);
-                response.status(500).send();
+                response.status(500).json({erro: 'Ocorreu um erro com o servidor, favor tentar novamente mais tarde.'});
             });
     };
 }
