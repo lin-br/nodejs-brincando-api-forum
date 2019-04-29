@@ -1,16 +1,15 @@
-const UsuarioAcessoRepository = require('../model/repository/UsuarioAcessoRepository');
-const UsuarioCacheRepository = require('../model/repository/UsuarioCacheRepository');
+const LoginDTO = require('../dto/LoginDTO');
+const LoginDomain = require('../domain/LoginDomain');
 
 class LoginController {
 
     static realizarLogin(request, response) {
-        let {email} = request.body;
+        let loginDTO = new LoginDTO(request.body);
 
-        UsuarioAcessoRepository.recuperarUsuarioComPermissoes(email)
-            .then(usuario => UsuarioCacheRepository.cachearUsuario(usuario))
-            .then(mensagem => {
-                console.log(mensagem);
-                response.send('ok');
+        LoginDomain.processarAutenticacaoDoUsuario(loginDTO)
+            .then(jwt => {
+                if (jwt) response.header('Authorization', `Bearer ${jwt}`).send();
+                else response.status(404).send();
             })
             .catch(erro => {
                 console.log(`erro: ${erro}`);
