@@ -11,7 +11,10 @@ class UsuarioCacheDAO {
                 5,
                 (erro) => {
                     if (erro) reject(erro);
-                    else resolve(`Chave com identificação: ${usuario.id} adicionada ao memcached`);
+                    else {
+                        console.log(`Chave com identificação: ${usuario.id} adicionada ao memcached`);
+                        resolve(true);
+                    }
                 }
             );
         });
