@@ -45,15 +45,21 @@ function cachearUsuario(usuario) {
 
 function gerarJWT(usuario) {
     if (usuario) {
-        return ManipuladorJWT.gerarJWT(usuario.id,
-            {
-                nome: usuario.nome,
-                email: usuario.email,
-                situacao: usuario.situacao
-            },
-            60
-        );
+        return ManipuladorJWT.gerarJWT(usuario.id, {usuario: gerarUsuarioParaJWT(usuario)}, 60);
     } else return null;
+}
+
+function gerarUsuarioParaJWT(usuario) {
+    let objeto = {
+        nome: usuario.nome,
+        email: usuario.email,
+        situacao: usuario.situacao,
+        tipo: usuario.idTipo,
+        regras: []
+    };
+
+    usuario.regras.forEach(regra => objeto.regras.push({id: regra.id}));
+    return objeto;
 }
 
 module.exports = LoginDomain;
