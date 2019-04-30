@@ -4,7 +4,7 @@ const CHAVE = 'txp2wk99k6UKGM9Lr+DX29v0lntp9RTwQUiv+ZzOYoA=';
 
 class ManipuladorJWT {
 
-    static gerarJWT(payload = {}, validade = 300) {
+    static gerarJWT(payload = {}, validade = '1h') {
         return apiJwt.sign(payload, CHAVE, {algorithm: 'HS512', expiresIn: validade});
     }
 
