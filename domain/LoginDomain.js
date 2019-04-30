@@ -33,7 +33,7 @@ function cachearUsuario(usuario) {
         if (usuario) {
             UsuarioCacheRepository.cachearUsuario(usuario)
                 .then(resposta => {
-                    if (resposta) resolve(resposta);
+                    if (resposta) resolve(usuario);
                     else resolve(null);
                 })
                 .catch(erro => {
@@ -45,8 +45,8 @@ function cachearUsuario(usuario) {
 
 function gerarJWT(usuario) {
     if (usuario) {
-        return ManipuladorJWT.gerarJWT({
-                id: usuario.id,
+        return ManipuladorJWT.gerarJWT(usuario.id,
+            {
                 nome: usuario.nome,
                 email: usuario.email,
                 situacao: usuario.situacao
