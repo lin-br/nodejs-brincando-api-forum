@@ -59,8 +59,9 @@ DROP TABLE IF EXISTS tilmais.regras;
 
 CREATE TABLE IF NOT EXISTS tilmais.regras (
     id                  INT          NOT NULL AUTO_INCREMENT,
-    nome                VARCHAR(100) NOT NULL,
-    descricao           VARCHAR(280) NOT NULL,
+    url VARCHAR(100) NOT NULL,
+    method ENUM('GET','POST','PUT','DELETE','PATCH') NOT NULL,
+    descricao           VARCHAR(140) NOT NULL,
     data_hora_criacao   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP(),
     data_hora_alteracao TIMESTAMP    NULL     DEFAULT NULL,
     data_hora_exclusao  TIMESTAMP    NULL     DEFAULT NULL,

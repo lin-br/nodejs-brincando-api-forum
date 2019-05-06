@@ -58,7 +58,7 @@ function gerarUsuarioParaJWT(usuario) {
         regras: []
     };
 
-    usuario.regras.forEach(regra => objeto.regras.push({id: regra.id}));
+    usuario.regras.forEach(regra => objeto.regras.push({id: regra.id, url: regra.url, metodo: regra.metodo}));
     return objeto;
 }
 

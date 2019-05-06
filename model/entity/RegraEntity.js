@@ -1,8 +1,9 @@
 class RegraEntity {
 
-    constructor({id_regra, regra, regra_descricao}) {
+    constructor({id_regra, url, metodo, regra_descricao}) {
         this._id = id_regra;
-        this._regra = regra;
+        this._url = url;
+        this._metodo = metodo;
         this._descricao = regra_descricao;
         Object.freeze(this);
     }
@@ -11,8 +12,12 @@ class RegraEntity {
         return this._id;
     }
 
-    get regra() {
-        return this._regra;
+    get url() {
+        return this._url;
+    }
+
+    get metodo() {
+        return this._metodo;
     }
 
     get regra_descricao() {
