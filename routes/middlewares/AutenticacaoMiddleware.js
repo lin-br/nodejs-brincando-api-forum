@@ -6,13 +6,23 @@ class AutenticacaoMiddleware {
     static autenticarAcesso(request, response, next) {
         let token = ManipuladorRequest.recuperarTokenJWT(request);
 
-        try {
-            let validadeDoToken = ManipuladorJWT.validarJWT(token);
-            if (validadeDoToken) next();
-        } catch (e) {
-            console.log({erro: e.name, mensagem: e.message, dataExpiracao: e.expiredAt});
-            response.status(401).send();
-        }
+        ManipuladorJWT.validarJWT(token)
+            .then((payload) => {
+                request.payload = payload;
+                next();
+            })
+            .catch((erro) => {
+                if (erro.name === 'TokenExpiredError') {
+                    response.status(401).json({
+                        erro: erro.name,
+                        mensagem: 'Sinto muito, o seu token expirou!',
+                        dataExpiracao: erro.expiredAt
+                    });
+                } else {
+                    console.log(erro);
+                    response.status(500).send();
+                }
+            });
     }
 }
 

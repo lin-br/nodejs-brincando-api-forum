@@ -12,8 +12,15 @@ class ManipuladorJWT {
     }
 
     static validarJWT(token = '') {
-        if (token) return apiJwt.verify(token, CHAVE);
-        else return false;
+        return new Promise((resolve, reject) => {
+            apiJwt.verify(token,
+                CHAVE,
+                (erro, payload) => {
+                    if (erro) reject(erro);
+                    else resolve(payload);
+                }
+            );
+        });
     }
 }
 
