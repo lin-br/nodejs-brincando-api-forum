@@ -1,6 +1,16 @@
 const UsuarioAcessoEntity = require('../entity/UsuarioAcessoEntity');
 const RegraEntity = require('../entity/RegraEntity');
 
+function fabricarUsuarioEntity(dados) {
+    let usuarioEntity = new UsuarioAcessoEntity(dados[0]);
+    dados.forEach(linha => {
+        if (!usuarioEntity.regras.some(regra => regra.id === linha.id_regra)) {
+            usuarioEntity.adicionarRegra(new RegraEntity(linha))
+        }
+    });
+    return usuarioEntity;
+}
+
 class UsuarioAcessoDAO {
 
     constructor(conexao) {
@@ -10,6 +20,18 @@ class UsuarioAcessoDAO {
     recuperarUsuarioComPermissoes(email = null) {
         return new Promise((resolve, reject) => {
             this._conexao.query(`
+                SELECT u.*, t.nome AS tipo, rt.id_regra, r.url, r.method, r.descricao AS regra_descricao
+                FROM tilmais.usuarios       u
+                     JOIN      tipos        t ON u.id_tipo = t.id
+                     LEFT JOIN regras_tipos rt ON u.id = rt.id_tipo
+                     LEFT JOIN regras       r ON rt.id_regra = r.id
+                WHERE u.situacao = 1
+                  AND u.data_hora_exclusao IS NULL
+                  AND t.data_hora_exclusao IS NULL
+                  AND r.data_hora_exclusao IS NULL
+                  AND rt.situacao_vinculo = 1
+                  AND u.email = ?
+                UNION ALL
                 SELECT u.*, t.nome AS tipo, ru.id_regra, r.url, r.method, r.descricao AS regra_descricao
                 FROM tilmais.usuarios          u
                      JOIN      tipos           t ON u.id_tipo = t.id
@@ -22,22 +44,16 @@ class UsuarioAcessoDAO {
                   AND ru.situacao_vinculo = 1
                   AND u.email = ?
                 ;`,
-                [email],
+                [email, email],
                 (erro, resultado) => {
                     if (erro) {
                         reject(erro);
                     } else {
-                        if (resultado && resultado.length) resolve(this._montarUsuarioEntity(resultado));
+                        if (resultado && resultado.length) resolve(fabricarUsuarioEntity(resultado));
                         else resolve(null);
                     }
                 });
         });
-    }
-
-    _montarUsuarioEntity(resultadoDaConsulta) {
-        let usuario = new UsuarioAcessoEntity(resultadoDaConsulta[0]);
-        resultadoDaConsulta.forEach((linha) => usuario.adicionarRegra(new RegraEntity(linha)));
-        return usuario;
     }
 }
 
