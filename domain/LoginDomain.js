@@ -31,14 +31,16 @@ function validarAutenticidadeDoUsuario(loginDto, usuario) {
 function cachearUsuario(usuario) {
     return new Promise((resolve, reject) => {
         if (usuario) {
-            UsuarioCacheRepository.cachearUsuario(usuario)
+            UsuarioCacheRepository.obterCachePorId(usuario.id)
+                .then(cache => {
+                    if (cache) resolve(usuario);
+                    else return UsuarioCacheRepository.cachearUsuario(usuario);
+                })
                 .then(resposta => {
                     if (resposta) resolve(usuario);
                     else resolve(null);
                 })
-                .catch(erro => {
-                    reject(erro);
-                });
+                .catch(erro => reject(erro));
         } else resolve(null);
     });
 }
