@@ -10,7 +10,7 @@ class UsuarioAcessoDAO {
     recuperarUsuarioComPermissoes(email = null) {
         return new Promise((resolve, reject) => {
             this._conexao.query(`
-                SELECT u.*, t.nome AS tipo, ru.id_regra, r.url, r.method AS regra, r.descricao AS regra_descricao
+                SELECT u.*, t.nome AS tipo, ru.id_regra, r.url, r.method, r.descricao AS regra_descricao
                 FROM tilmais.usuarios          u
                      JOIN      tipos           t ON u.id_tipo = t.id
                      LEFT JOIN regras_usuarios ru ON u.id = ru.id_usuario
