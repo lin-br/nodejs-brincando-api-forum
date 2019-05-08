@@ -12,6 +12,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(expressValidator());
 app.use('/login', LoginRoute);
+app.use(AutenticacaoMiddleware.autenticarPermissao);
 app.use(AutenticacaoMiddleware.autenticarAcesso);
 app.use('/usuarios', UsuarioRoute);
 app.use(ManipuladorErros.deuRuim);

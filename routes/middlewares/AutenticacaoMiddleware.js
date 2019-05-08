@@ -7,11 +7,8 @@ class AutenticacaoMiddleware {
         let token = ManipuladorRequest.recuperarTokenJWT(request);
 
         ManipuladorJWT.validarJWT(token)
-            .then((payload) => {
-                request.payload = payload;
-                next();
-            })
-            .catch((erro) => {
+            .then(next())
+            .catch(erro => {
                 if (erro.name === 'TokenExpiredError') {
                     response.status(401).json({
                         erro: erro.name,
@@ -22,6 +19,21 @@ class AutenticacaoMiddleware {
                     console.log(erro);
                     response.status(500).send();
                 }
+            });
+    }
+
+    static autenticarPermissao(request, response, next) {
+        let token = ManipuladorRequest.recuperarTokenJWT(request);
+
+        ManipuladorJWT.obterPayload(token)
+            .then(payload => {
+                let possuiPermissao = payload.usuario.regras.some(regra => (regra.url === request.url) && (regra.metodo === request.method));
+                if (possuiPermissao) next();
+                else response.status(403).send();
+            })
+            .catch(erro => {
+                console.log(erro);
+                response.status(500).send();
             });
     }
 }

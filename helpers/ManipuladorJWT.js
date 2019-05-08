@@ -22,6 +22,16 @@ class ManipuladorJWT {
             );
         });
     }
+
+    static obterPayload(token = '') {
+        return new Promise((resolve, reject) => {
+            try {
+                resolve(apiJwt.decode(token));
+            } catch (erro) {
+                reject(erro)
+            }
+        })
+    }
 }
 
 module.exports = ManipuladorJWT;
